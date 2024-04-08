@@ -77,11 +77,13 @@ describe('attestProvenance', () => {
       await mockTSA({baseURL: tsaServerURL})
 
       // Mock GH attestations API
+	  const regex = new RegExp('^/repos/.*?/.*?/attestations$'); // Optimized regex pattern using lazy quantifiers
+	  
       nock('https://api.github.com')
-        .post(/^\/repos\/.*\/.*\/attestations$/)
+        .post(regex)
         .reply(201, {id: attestationID})
     })
-
+    
     describe('when the sigstore instance is explicitly set', () => {
       it('attests provenance', async () => {
         const attestation = await attestProvenance({
