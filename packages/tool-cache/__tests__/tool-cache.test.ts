@@ -19,9 +19,22 @@ const IS_MAC = process.platform === 'darwin'
 
 describe('@actions/tool-cache', function () {
   beforeAll(function () {
+	  // Import dotenv to load environment variables from the github-actions-toolkit.env file
+	  require('dotenv').config();
+	
+	  // Check if the environment variables are set
+	  if(!process.env.TOOL_CACHE_TEST_USERNAME || !process.env.TOOL_CACHE_TEST_PASSWORD) {
+		  throw new Error('ERROR! The environment variables for TOOL_CACHE_TEST_USERNAME and TOOL_CACHE_TEST_PASSWORD are not set.');
+	  }
+	
+	  // Access the credentials from environment variables
+	  const username = process.env.TOOL_CACHE_TEST_USERNAME;
+	  const password = process.env.TOOL_CACHE_TEST_PASSWORD;
+	
     nock('http://example.com').persist().get('/bytes/35').reply(200, {
-      username: 'abc',
-      password: 'def'
+		  // Use credentials retrieved from the environment variables
+		  username: username,
+		  password: password
     })
     setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS', 0)
     setGlobal('TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS', 0)
