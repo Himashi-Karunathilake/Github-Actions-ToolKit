@@ -308,7 +308,7 @@ async function copyFile(
     } catch (e) {
       // Try to override file permission
       if (e.code === 'EPERM') {
-        await ioUtil.chmod(destFile, '0666')
+        await ioUtil.chmod(destFile, '0644')
         await ioUtil.unlink(destFile)
       }
       // other errors = it doesn't exist, no work to do
