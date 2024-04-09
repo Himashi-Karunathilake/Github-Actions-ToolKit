@@ -5,6 +5,7 @@ import {ArtifactServiceClientJSON} from '../../generated'
 import {getResultsServiceUrl, getRuntimeToken} from './config'
 import {getUserAgentString} from './user-agent'
 import {NetworkError, UsageError} from './errors'
+import {randomInt} from 'crypto'
 
 // The twirp http client must implement this interface
 interface Rpc {
@@ -178,7 +179,7 @@ class ArtifactHttpClient implements Rpc {
     const maxTime = minTime * this.retryMultiplier
 
     // returns a random number between minTime and maxTime (exclusive)
-    return Math.trunc(Math.random() * (maxTime - minTime) + minTime)
+    return minTime + randomInt(maxTime - minTime);
   }
 }
 
