@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github Toolkit</title>
+  <style>
+    body {
+      font-family: "Lucida Console", "Courier New", monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      background-image: url('bckg.png');
+      background-size: cover;
+      background-position: center;
+      height: 94vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    h1, p {
+      color: black;
+      text-align: left;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      margin-top: 250px;
+    }
+
+    button {
+      background-color: #fed715;
+      border: none;
+      color: black;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+      font-family: "Lucida Console", "Courier New", monospace;
+      border-radius: 5px;
+      margin-top: 30px;
+    }
+
+    button:hover {
+      background-color: grey;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GitHub Actions Toolkit</h1>
+    <p>This ToolKit provides a set of packages to make creating actions easier</p>
+    <!-- Button to trigger OAuth authentication -->
+    <button onclick="authenticateWithOAuth()">Get Started</button>
+  </div>
+
+  <script>
+    // Function to redirect user to OAuth provider for authentication
+    function authenticateWithOAuth() {
+      // Replace these values with your Auth0 domain and client ID
+      const auth0Domain = 'dev-g7wl1y787w5y3kdy.us.auth0.com';
+      const clientId = 'txPYkjGnVxZjNh0VSzJgimG51xSzUM2m';
+      const redirectUri = encodeURIComponent('http://localhost/ss/callback.html');
+
+      // Redirect user to Auth0 login page
+      window.location.href = `https://${auth0Domain}/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=openid profile email`;
+    }
+
+    // Function to handle authentication callback
+    function handleAuthenticationCallback() {
+      const params = new URLSearchParams(window.location.hash.substr(1));
+      const accessToken = params.get('access_token');
+
+      // Handle access token or other authentication data as needed
+      if (accessToken) {
+        // Perform action with access token
+        alert('Authentication successful! Access token: ' + accessToken);
+      } else {
+        // Handle authentication failure
+        alert('Authentication failed!');
+      }
+    }
+  </script>
+</body>
+</html>
